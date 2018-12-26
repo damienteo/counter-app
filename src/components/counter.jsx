@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Counter extends Component {
 
 	state = {
-		count: 0,
+		value: this.props.counter.value
 		// tags: ['tag1', 'tag2', 'tag3']
 	}
 	//state is an object that includes any data the component needs
@@ -32,29 +32,40 @@ class Counter extends Component {
 	//function(); 'this' will refer to the window
 
 	handleIncrement = () => {
-		console.log("Increment Clicked!", this);
+		this.setState({ value: this.state.value + 1 })
 	}
 
-	render() {
+//setState is required to change the data in state, cannot simply use this.state.count++; setState will also initiate a call to the render method to update accordingly
 
+//whenever you need to pass a parameter into the function from the body of an event handler, you need to use an arrow function
+// onClick={() => this.handleIncrement(product)}
+// {this.props.children}
+// <h4>Counter #{counter.id} </h4>
+
+	render() {
 		return (
 			<div>
 				<span className={this.getBadgeClasses()}>{this.formatCount()}</span>
 				<button onClick={this.handleIncrement} className="btn btn-secondary btn-sm">Increment</button>
-
+				<button 
+				onClick={() => this.props.onDelete(this.props.counter.id)} 
+				className="btn btn-danger btn-sm m-2"
+				>
+					Delete
+				</button>
 			</div>
 			)
 	}
 
 	getBadgeClasses() {
 		let classes = "badge m-2 badge-";
-		classes += (this.state.count === 0) ? "warning" : "primary";
+		classes += (this.state.value === 0) ? "warning" : "primary";
 		return classes;
 	}
 
 	formatCount() {
-		const { count } = this.state;
-		return count === 0 ? "Zero" : count;
+		const { value } = this.state;
+		return value === 0 ? "Zero" : value;
 	}
 }
 //what is rendered is not a string. It is a React expression (React.createElement('div'))
