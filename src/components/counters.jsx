@@ -3,44 +3,25 @@ import Counter from "./counter";
 
 class Counters extends Component {
 
-	state = {
-		counters: [
-			{ id: 1, value: 0 },
-			{ id: 2, value: 0 },
-			{ id: 3, value: 1 },
-			{ id: 4, value: 0 }
-		]
-	};
-
-	handleDelete = (counterId) => {
-		const counters = this.state.counters.filter(c => c.id !== counterId);
-		this.setState({ counters: counters });
-	}
-
-	handleReset = () => {
-		const counters = this.state.counters.map
-			(c => {
-				c.value = 0; 
-				return c;
-			});
-		this.setState({counters: counters});
-	};
-
 	render() {
+		const { onReset, counters, onIncrement, onDecrement, onDelete } = this.props;
+
 		return(
 			<div>
 				<button 
-					onClick={this.handleReset} 
+					onClick={onReset} 
 					className="btn btn-primary btn-sm m-2"
 					> 
 					Reset
 				</button>
 
-				{this.state.counters.map(counter => 
+				{counters.map(counter => 
 					<Counter 
 					key={counter.id}
 					counter={counter}
-					onDelete={this.handleDelete}>
+					onIncrement={onIncrement}
+					onDecrement={onDecrement}
+					onDelete={onDelete}>
 					</Counter>
 					)}
 			</div>
@@ -48,6 +29,29 @@ class Counters extends Component {
 	}
 
 }
+
+//before destructuring
+// render() {
+// 		return(
+// 			<div>
+// 				<button 
+// 					onClick={this.props.onReset} 
+// 					className="btn btn-primary btn-sm m-2"
+// 					> 
+// 					Reset
+// 				</button>
+
+// 				{this.props.counters.map(counter => 
+// 					<Counter 
+// 					key={counter.id}
+// 					counter={counter}
+// 					onIncrement={this.props.onIncrement}
+// 					onDelete={this.props.onDelete}>
+// 					</Counter>
+// 					)}
+// 			</div>
+// 			)
+// 	}
 
 export default Counters;
 
